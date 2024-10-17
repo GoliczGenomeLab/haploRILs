@@ -71,8 +71,8 @@ id      chr     nSnp    step    K       blocksFiltered  block   startIndex      
 ```
 # Notes
 
-- `haploRILs.R` reads homemade functions from `haploRILs_function.R`. This is a well-documented file where functions can be tweaked to customize haploRILs default behaviour. It also contains unused functions.
-- haploRILs is still in developmental stage so you are welcome to suggest changes and share your experience on the issues section.
+- `haploRILs.R` reads homemade functions from `haploRILs_function.R`. This is a well-documented file where functions can be tweaked to customize haploRILs default behaviour. It also contains unused functions
+- haploRILs is still in developmental stage so you are welcome to suggest changes and share your experience on the issues section :smiley:
 
 # Contact
 Author: Jose Antonio Montero Tena, PhD researcher
