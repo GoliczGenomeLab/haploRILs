@@ -25,7 +25,7 @@ Rscript haploRILs.R {file name} {nSnp} {step} {K} {number of founders}
 5. Haploblocks are built based on contiguous windows assigned to same highest-scoring founder(s). Putative crossovers are marked in haploblock transitions.
 	* Putative crossovers are validated by comparing the highest-scoring founders between the windows before and after the crossover with those of the `{K}`-context regions before and after these. If compared windows share highest-scoring founders, putative crossovers are rejected (watch GIFs).
 6. Dissenting isolated haploblocks are filtered and imputed (AAABAAA --> AAAAAAA)
-7. Return the haploblock pedigree information, score details and coordinates.
+7. Return the haploblock pedigree information, score details and coordinates. 
 
 ## Customizable parameters
 |Parameter			|Description
