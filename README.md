@@ -38,7 +38,7 @@ gif_crossover_rejected
 |number of founders		|Which line is the last founder in the PED file. The founders must go first in PED	|
 
 ## Output
-One `.hbk` files is generated in every haploRILs run named:
+One `.hbk` file containing founder haploblock information is generated in every haploRILs run named:
 ```{r Output}
 {filepath}_{nSnp}_{step}_{K}.hbk
 ```
@@ -61,10 +61,10 @@ One `.hbk` files is generated in every haploRILs run named:
 |blockSumScore1			|Block score of mostLikelyFounders						|
 |blockSumScore2			|Block score of mostLikelyFounders2						|
 |blockSumScoreRest		|Block score of mostLikelyFounders3						|
-|startInterval			|Chromosome:{start bp position of first window}-Chromosome:{startBP, which is	|
-|				 the end bp position of first window :raised_eyebrow:}				|
-|endInterval			|Chromosome:{endBP, which is the start bp position of last window}-Chromosome:{ |
-				 end bp position of last window}						|
+|startInterval			|Chromosome:{start bp position of first window}-Chromosome:{startBP, which is
+ the end bp position of first window :raised_eyebrow:}|
+|endInterval			|Chromosome:{endBP, which is the start bp position of last window}-Chromosome:{end 
+bp position of last window}|
 An example of the output:
 ```{r Example output}
 id      chr     nSnp    step    K       blocksFiltered  block   startIndex      endIndex        startBP endBP   mostLikelyFoundersFiltered      mostLikelyFounders  mostLikelyFounders2     blockSumScore1  blockSumScore2  blockSumScoreRest       startInterval   endInterval
@@ -72,16 +72,10 @@ id      chr     nSnp    step    K       blocksFiltered  block   startIndex      
 123     chrSim  12      1       3       2       2       692     1358    8304    16285   Founder7    Founder7    Founder4    0.863194002998501   0.809971814092954       0.696145512957807       chrSim_8293-chrSim_8304 chrSim_16285-chrSim_16296
 123     chrSim  12      1       3       3       3       1359    1567    16308   18796   Founder8    Founder8    Founder14   0.839715311004785   0.832140669856459       0.611928537252222       chrSim_16297-chrSim_16308       chrSim_18793-chrSim_18796
 ```
-# Description
-(1) Converts heterozygous sites to missing calls, (2) Compares each progeny (RIL/DH) with all founders and creates score matrix with 0/1 scores per SNP and founder based on similarity to each founder, (3) Bin scores by windows with nSnp SNPs and step, (4) Detect highest-scoring founder, (5) Build haploblocks based on contiguous windows assigned to same founder, (6) Validate putative crossovers by comparing the highest-scoring founders between the CO with the K context regions before and after these, (7) Merge dissenting isolated haploblocks, (8) Return the haploblock pedigree information, score details and coordinates.
-# Usage: ./haploRILs.R <filename> <nSnp> <step> <K> <number of founders>
-# Input: PED/MAP called <filename>. The PED has individual by rows, founders first and then descendants, with ID in first col and SNP allele in the rest. haploRILs assumes the genotypes are represented in diploid format, with two numbers per loci, 1/2/0 for minor/major/missing allele (genotypes would be 1 1/1 2/2 2/0 0). Missing genotype = 0. The MAP file has SNPs by rows and chromosome and physical distance by columns. The number of cols in PED should be (number of rows in MAP file)*2 + 1
-# Output: <filepath>_<nSnp>_<step>_<K>.hbk (haploblocks)
-# Remarks: Now allows to set up the minimum number of SNPs per window based on the aim resolution. Step as input
-# Remarks
+# Notes
 `haploRILs.R` reads homemade functions from `haploRILs_function.R`. This is a well-documented file where functions can be tweaked to customize haploRILs default behaviour. It also contains unused functions.
 
 # Contact
 Author: Jose Antonio Montero Tena, PhD researcher
-(Email)[jose.a.montero-tena@ab.uni-giessen.de]
-(GitHub)[https://github.com/jamonterotena]
+[Email](jose.a.montero-tena@ab.uni-giessen.de)
+[GitHub](https://github.com/jamonterotena)
