@@ -20,21 +20,21 @@ gif_crossover_detected
 gif_crossover_rejected
 *Example of putative crossover rejected between SNPs 3 and 4 (K=1, step=1)*
 
-1. Heterozygous sites are converted to missing calls.
+1. Heterozygous sites are converted to missing genotypes.
 2. Descendants (RIL/DH) are compared with founders {PED lines 1 - `{number of founders}`} and a score matrix is created. The score matrix contains the values 0/1 scores per SNP and founder based on similarity to each founder.
 3. Scores are summed by windows of `{nSnp}` SNPs and `{step}` overlap.
 4. Highest-scoring founder are detected by windows.
 5. Haploblocks are built based on contiguous windows assigned to same highest-scoring founder(s). Putative crossovers are marked in haploblock transitions.
 	6. Putative crossovers are validated by comparing the highest-scoring founders between the windows before and after the crossover with those of the `{K}`-context regions before and after these. If compared windows share highest-scoring founders, putative crossovers are rejected (watch GIFs).
-7. Dissenting isolated haploblocks are filtered and imputed (AAABAAA --> AAAAAAA)/
+7. Dissenting isolated haploblocks are filtered and imputed (AAABAAA --> AAAAAAA)
 8. Return the haploblock pedigree information, score details and coordinates.
 
 ## Customizable parameters
 |Parameter			|Description
 |-------------------------------|---------------------------------------------------------------------------------------|
-|nSnp                           |*Window size*. haploRILs splits the chromosome in windows of this number of SNPs	|
-|step				|*Window overlap*. 1=Stable window, >1=Sliding window					|
-|K                              |*Context window size*. Number of SNPs on each side of the putative CO for validation	|
+|nSnp                           |*Window size*, haploRILs splits the chromosome in windows of this number of SNPs	|
+|step				|*Window overlap*, 1=Stable window, >1=Sliding window					|
+|K                              |*Context window size*, number of SNPs on each side of the putative CO for validation	|
 |number of founders		|Which line is the last founder in the PED file. The founders must go first in PED	|
 
 ## Output
@@ -61,10 +61,10 @@ One `.hbk` file containing founder haploblock information is generated in every 
 |blockSumScore1			|Block score of mostLikelyFounders						|
 |blockSumScore2			|Block score of mostLikelyFounders2						|
 |blockSumScoreRest		|Block score of mostLikelyFounders3						|
-|startInterval			|Chromosome:{start bp position of first window}-Chromosome:{startBP, which is
- the end bp position of first window :raised_eyebrow:}|
-|endInterval			|Chromosome:{endBP, which is the start bp position of last window}-Chromosome:{end 
-bp position of last window}|
+|startInterval			|Chromosome:{start bp position of first window}-Chromosome:{startBP, which is the end bp position of first window :raised_eyebrow:}
+|endInterval			|Chromosome:{endBP, which is the start bp position of last window}-Chromosome:{end bp position of last window}|
+|-------------------------------|-------------------------------------------------------------------------------|
+
 An example of the output:
 ```{r Example output}
 id      chr     nSnp    step    K       blocksFiltered  block   startIndex      endIndex        startBP endBP   mostLikelyFoundersFiltered      mostLikelyFounders  mostLikelyFounders2     blockSumScore1  blockSumScore2  blockSumScoreRest       startInterval   endInterval
@@ -77,5 +77,5 @@ id      chr     nSnp    step    K       blocksFiltered  block   startIndex      
 
 # Contact
 Author: Jose Antonio Montero Tena, PhD researcher
-[Email](jose.a.montero-tena@ab.uni-giessen.de)
-[GitHub](https://github.com/jamonterotena)
+*[Email](jose.a.montero-tena@ab.uni-giessen.de)
+*[GitHub](https://github.com/jamonterotena)
