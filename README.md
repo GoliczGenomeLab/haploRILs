@@ -15,19 +15,17 @@ PED/MAP called `{filename}` installed in same dir as input.
 Rscript haploRILs.R {file name} {nSnp} {step} {K} {number of founders}
 ```
 ## Method
-gif_crossover_detected
-*Example of putative crossover detected between SNPs 3 and 4 (K=1, step=1)*
-gif_crossover_rejected
-*Example of putative crossover rejected between SNPs 3 and 4 (K=1, step=1)*
+![combined_fill_1s](https://github.com/user-attachments/assets/916651a4-aed1-4702-8aca-a2631dcb83d6)
+*The GIF shows two examples of founder haploblock reconstruction in chromosomes where a putative crossover is being detected between SNP windows 3 and 4 (K=1, step=1). On top, the crossover is confirmed because none of the pairs of SNP windows compared shares highest-scoring founders. Instead, the crossover below is rejected because the window after, 5 (i+k), shares founder with the windows before, 3 (i-1) and 2 (i-k-1). This context-based method for putative crossover validation aims to reduce the impact of genotyping errors or missing data on founder haplotype assignment.*
 
 1. Heterozygous sites are converted to missing genotypes.
 2. Descendants (RIL/DH) are compared with founders {PED lines 1 - `{number of founders}`} and a score matrix is created. The score matrix contains the values 0/1 scores per SNP and founder based on similarity to each founder.
 3. Scores are summed by windows of `{nSnp}` SNPs and `{step}` overlap.
 4. Highest-scoring founder are detected by windows.
 5. Haploblocks are built based on contiguous windows assigned to same highest-scoring founder(s). Putative crossovers are marked in haploblock transitions.
-	6. Putative crossovers are validated by comparing the highest-scoring founders between the windows before and after the crossover with those of the `{K}`-context regions before and after these. If compared windows share highest-scoring founders, putative crossovers are rejected (watch GIFs).
-7. Dissenting isolated haploblocks are filtered and imputed (AAABAAA --> AAAAAAA)
-8. Return the haploblock pedigree information, score details and coordinates.
+	* Putative crossovers are validated by comparing the highest-scoring founders between the windows before and after the crossover with those of the `{K}`-context regions before and after these. If compared windows share highest-scoring founders, putative crossovers are rejected (watch GIFs).
+6. Dissenting isolated haploblocks are filtered and imputed (AAABAAA --> AAAAAAA)
+7. Return the haploblock pedigree information, score details and coordinates.
 
 ## Customizable parameters
 |Parameter			|Description
@@ -57,13 +55,12 @@ One `.hbk` file containing founder haploblock information is generated in every 
 |endBP				|Hblock end position (physical position of SNP in chr)				|
 |mostLikelyFoundersFiltered	|Highest-scoring founder after filtering					|
 |mostLikelyFounders		|Highest-scoring founder before filtering					|
-|mostLikelyFounders2		|2. Highest-scoring founder before filtering					|
+|mostLikelyFounders2		|2nd Highest-scoring founder before filtering					|
 |blockSumScore1			|Block score of mostLikelyFounders						|
 |blockSumScore2			|Block score of mostLikelyFounders2						|
 |blockSumScoreRest		|Block score of mostLikelyFounders3						|
 |startInterval			|Chromosome:{start bp position of first window}-Chromosome:{startBP, which is the end bp position of first window :raised_eyebrow:}
 |endInterval			|Chromosome:{endBP, which is the start bp position of last window}-Chromosome:{end bp position of last window}|
-|-------------------------------|-------------------------------------------------------------------------------|
 
 An example of the output:
 ```{r Example output}
@@ -73,9 +70,13 @@ id      chr     nSnp    step    K       blocksFiltered  block   startIndex      
 123     chrSim  12      1       3       3       3       1359    1567    16308   18796   Founder8    Founder8    Founder14   0.839715311004785   0.832140669856459       0.611928537252222       chrSim_16297-chrSim_16308       chrSim_18793-chrSim_18796
 ```
 # Notes
-`haploRILs.R` reads homemade functions from `haploRILs_function.R`. This is a well-documented file where functions can be tweaked to customize haploRILs default behaviour. It also contains unused functions.
+
+- `haploRILs.R` reads homemade functions from `haploRILs_function.R`. This is a well-documented file where functions can be tweaked to customize haploRILs default behaviour. It also contains unused functions.
+- haploRILs is still in developmental stage so you are welcome to suggest changes and share your experience on the issues section.
 
 # Contact
 Author: Jose Antonio Montero Tena, PhD researcher
-*[Email](jose.a.montero-tena@ab.uni-giessen.de)
-*[GitHub](https://github.com/jamonterotena)
+
+- [Email](jose.a.montero-tena@ab.uni-giessen.de)
+
+- [GitHub](https://github.com/jamonterotena)
