@@ -1,13 +1,22 @@
-#!/vol/agcpgl/jmontero/no_backup/miniconda3/envs/R441/bin/Rscript
+---
+title: "haploRILs_function.qmd"
+format:
+  html:
+    page-layout: full
+---
 
-# Title: haploRILs_function.R
-# Author: jmontero
-# Date: 2024-10-11
-# Description: Required functions for the execution of haploRILs 
+- Title: haploRILs_function.R
+- Author: jmontero
+- Date: 2024-10-11
+- Description: Required functions for the execution of haploRILs 
 
-#### Currently used functions ####
+```
+# Currently used functions
+```{r Currently used functions}
 
-#### SNP SCORE RULES ####
+```
+# SNP SCORE RULES
+```{r SNP SCORE RULES}
 # When a SNP matches the founders on
 # a minor allele, it gets the score
 minimum_af_allele_match = 1
@@ -18,7 +27,9 @@ maximum_af_allele_match = 1
 # or there is missing data
 no_match_or_missing_data = 0
 
-#### BUILD VARIABLE-SIZE WINDOWS WITH MINIMUM BP AND SNP ####
+```
+# BUILD VARIABLE-SIZE WINDOWS WITH MINIMUM BP AND SNP
+```{r BUILD VARIABLE-SIZE WINDOWS WITH MINIMUM BP AND SNP}
 # Step: 0 --> Stable window, no sliding
 # Step: 4 --> slide jump = 4
 getSlidingWindows = function(map = map, minimum_snps, minimum_distance = 0, step) {
@@ -69,7 +80,9 @@ getSlidingWindows = function(map = map, minimum_snps, minimum_distance = 0, step
   return(binCoords)
 }
 
-#### DETERMINE THE MINIMUM SNP NUMBER PER WINDOW TO REACH THE AIM RESOLUTION ####
+```
+# DETERMINE THE MINIMUM SNP NUMBER PER WINDOW TO REACH THE AIM RESOLUTION
+```{r DETERMINE THE MINIMUM SNP NUMBER PER WINDOW TO REACH THE AIM RESOLUTION}
 # Determine window step (fixed window step)
 defineMinimumNumberSNPs = function(map, aimResolution = 2e3, noLessThan_SNPs = 5) {
   # Chromosome length
@@ -108,7 +121,9 @@ defineMinimumNumberSNPs = function(map, aimResolution = 2e3, noLessThan_SNPs = 5
   return(windowSize)
 }
 
-#### GET STATS OF DATA FRAMES ####
+```
+# GET STATS OF DATA FRAMES
+```{r GET STATS OF DATA FRAMES}
 getStats = function(df) {
   print(deparse(substitute(df)))
   report =
@@ -119,7 +134,9 @@ getStats = function(df) {
   print(report)
 }
 
-#### BUILD SLIDING WINDOWS ####
+```
+# BUILD SLIDING WINDOWS
+```{r BUILD SLIDING WINDOWS}
 # Maybe writing a function for building sliding
 # windows is overkill, but it complies with the
 # previous function getBinCoords() that required
@@ -161,7 +178,9 @@ getBinCoords = function(map, minimum_snps, minimum_distance) {
 }
 
 
-#### ASSIGN SCORES TO FOUNDER SNPS BASED ON SIMILARITY WITH THE DESCENDANT ####
+```
+# ASSIGN SCORES TO FOUNDER SNPS BASED ON SIMILARITY WITH THE DESCENDANT
+```{r ASSIGN SCORES TO FOUNDER SNPS BASED ON SIMILARITY WITH THE DESCENDANT}
 # The set number 2 should reward founders that have less the
 # less common genotypes matching with the RILs" genotypes
 # and therefore make clearer distinction between the
@@ -183,7 +202,9 @@ assignScoresRules2 = function(ped) {
   return(scores)
 }
 
-#### SUM SCORES BY WINDOWS AND DETECT HIGHEST-SCORING FOUNDERS ####
+```
+# SUM SCORES BY WINDOWS AND DETECT HIGHEST-SCORING FOUNDERS
+```{r SUM SCORES BY WINDOWS AND DETECT HIGHEST-SCORING FOUNDERS}
 # blockWindowBuilder takes a matrix of founder scores, with founder scores, and
 # window parameters and calculates the sum score by windows. Then, it records
 # the founders with the maximum score and extracts the rownames. Optionally, it
@@ -230,12 +251,16 @@ blockWindowBuilder = function(scores, binCoords, genotypes = scores, corWindowLe
   
 }
 
-#### FILTER HBLOCKS USING THE K-CONTEXT METHOD AND EXTRACT A TABLE WITH THE MOST-LIKELY FOUNDER PER HBLOCK ####
+```
+# FILTER HBLOCKS USING THE K-CONTEXT METHOD AND EXTRACT A TABLE WITH THE MOST-LIKELY FOUNDER PER HBLOCK
+```{r FILTER HBLOCKS USING THE K-CONTEXT METHOD AND EXTRACT A TABLE WITH THE MOST-LIKELY FOUNDER PER HBLOCK}
 # There are different versions but haploRILs currently uses inferMostLikelyPathAlternative6
 # Given a sequence of founder haplotypes, clean it up to have the most-likely
 # haplotype sequence that assigns snps to single founders
 
-#### inferMostLikelyPathAlternative6 ####
+```
+# inferMostLikelyPathAlternative6
+```{r inferMostLikelyPathAlternative6}
 # Retained COs must be switches between non-recurrent haplotypes: none of the
 # recombination interval haplotypes must match any of the context region ones
 inferMostLikelyPathAlternative6 = function(df, k, slidingWindows, genotypes, export = "mostLikelyFounders") {
@@ -395,7 +420,9 @@ inferMostLikelyPathAlternative6 = function(df, k, slidingWindows, genotypes, exp
   }
 }
 
-#### IMPUTE REPETITIVE AND SOLATED DISSENTING BLOCKS ####
+```
+# IMPUTE REPETITIVE AND SOLATED DISSENTING BLOCKS
+```{r IMPUTE REPETITIVE AND SOLATED DISSENTING BLOCKS}
 # Filter the blocks by merging repeating blocks and removing
 # isolated dissenting blocks
 filterBlocks = function(blocks) {
@@ -427,7 +454,7 @@ filterBlocks = function(blocks) {
     blocksID = blocksID %>% select(id, everything())
     newBlocks = rbind(newBlocks, as.data.frame(blocksID))
   }
-  blocks = as.data.frame(blocks) %>% mutate(startIndex = as.numeric(blocks$startIndex), endIndex = as.numeric(blocks$endIndex), step = as.numeric(blocks$step), K = as.numeric(blocks$K), nSnp = as.numeric(blocks$nSnp))
+  blocks = as.data.frame(blocks) %>% mutate(startIndex = as.numeric(blocks$startIndex), endIndex = as.numeric(blocks$endIndex), K = as.numeric(blocks$K), nSnp = as.numeric(blocks$nSnp))
   newBlocks = as.data.frame(newBlocks) %>% mutate(id = as.character(id))
   newBlocks = as.data.frame(newBlocks) %>% rename(mostLikelyFoundersFiltered = mostLikelyFounders)
   blocks = left_join(as.data.frame(blocks),
@@ -440,21 +467,25 @@ filterBlocks = function(blocks) {
   blocks$mostLikelyFoundersFiltered = dplyr::coalesce(blocks$mostLikelyFoundersFiltered.x, blocks$mostLikelyFoundersFiltered.y)
   blocks = blocks %>% select(!ends_with(".x")) %>% select(!ends_with(".y"))
   blocks = blocks %>% tidyr::fill(mostLikelyFoundersFiltered) %>% tidyr::fill(blocksFiltered)
-  blocks = blocks %>% select(id, chr, nSnp, step, K, blocksFiltered, block, startIndex, endIndex, startBP, endBP, mostLikelyFoundersFiltered, mostLikelyFounders, mostLikelyFounders2, blockSumScore1, blockSumScore2, blockSumScoreRest, startInterval, endInterval, startIntervalLength, endIntervalLength)
+  blocks = blocks %>% select(id, chr, nSnp, K, blocksFiltered, block, startIndex, endIndex, startBP, endBP, mostLikelyFoundersFiltered, mostLikelyFounders, mostLikelyFounders2, blockSumScore1, blockSumScore2, blockSumScoreRest, startInterval, endInterval, startIntervalLength, endIntervalLength)
   intervalLengthDF =
     blocks %>%
     #group_by(id, nSnp, K, blocksFiltered) %>%
-    group_by(id, nSnp, step, K, blocksFiltered, .groups = "drop") %>%
+    group_by(id, nSnp, K, blocksFiltered, .groups = "drop") %>%
     slice(1) %>%
     summarise(startIntervalLength, endIntervalLength)
   intervalLengthDF$IntervalLength = (intervalLengthDF$startIntervalLength + intervalLengthDF$endIntervalLength)/2
   intervalLengthDF = intervalLengthDF %>% select(-startIntervalLength, -endIntervalLength)
-  blocks = left_join(as.data.frame(blocks), as.data.frame(intervalLengthDF), by =c("id", "nSnp", "step", "K", "blocksFiltered")) %>% select(-startIntervalLength, -endIntervalLength)
+  blocks = left_join(as.data.frame(blocks), as.data.frame(intervalLengthDF), by =c("id", "nSnp", "K", "blocksFiltered")) %>% select(-startIntervalLength, -endIntervalLength)
   return(blocks)
 }
 
-#### Other functions ####
-#### BUILD VARIABLE-SIZED SLIDING WINDOWS WITH MINIMUM BP AND SNP ####
+```
+# Other functions
+```{r Other functions}
+```
+# BUILD VARIABLE-SIZED SLIDING WINDOWS WITH MINIMUM BP AND SNP
+```{r BUILD VARIABLE-SIZED SLIDING WINDOWS WITH MINIMUM BP AND SNP}
 getBinCoords = function(map, minimum_snps, minimum_distance) {
   binStart_bp = c()
   binEnd_bp = c()
@@ -492,12 +523,16 @@ getBinCoords = function(map, minimum_snps, minimum_distance) {
 }
 
 
-#### FILTER HBLOCKS USING THE K-CONTEXT METHOD AND EXTRACT A TABLE WITH THE MOST-LIKELY FOUNDER PER HBLOCK ####
+```
+# FILTER HBLOCKS USING THE K-CONTEXT METHOD AND EXTRACT A TABLE WITH THE MOST-LIKELY FOUNDER PER HBLOCK
+```{r FILTER HBLOCKS USING THE K-CONTEXT METHOD AND EXTRACT A TABLE WITH THE MOST-LIKELY FOUNDER PER HBLOCK}
 # There are different versions but haploRILs currently uses inferMostLikelyPathAlternative6
 # Given a sequence of founder haplotypes, clean it up to have the most-likely
 # haplotype sequence that assigns snps to single founders
 
-#### inferMostLikelyPath ####
+```
+# inferMostLikelyPath
+```{r inferMostLikelyPath}
 # Basic algorithm, including forward and backward
 # iterations, and basic context-based CO imputation by
 # zeroing-out no-COs
@@ -556,7 +591,9 @@ inferMostLikelyPath = function(haplotypePaths, k, correctionMethod = FALSE) {
   return(mostLikelyFounders)
 }
 
-#### inferMostLikelyPathAlternative1 ####
+```
+# inferMostLikelyPathAlternative1
+```{r inferMostLikelyPathAlternative1}
 # Modifies imputation technique. Now by copying over the
 # last haplotype into the imputed gap
 inferMostLikelyPathAlternative1 = function(haplotypePaths, k, correctionMethod = TRUE) {
@@ -648,7 +685,9 @@ inferMostLikelyPathAlternative1 = function(haplotypePaths, k, correctionMethod =
   return(mostLikelyFounders)
 }
 
-#### inferMostLikelyPathAlternative2 ####
+```
+# inferMostLikelyPathAlternative2
+```{r inferMostLikelyPathAlternative2}
 # Compared to alt1, all founders are compared between the
 # context regions. Also, considers k=0 as no imputation,
 # which caused unexpected results in last algs
@@ -729,7 +768,9 @@ inferMostLikelyPathAlternative2 = function(df, k) {
   return(mostLikelyFoundersExport)
 }
 
-#### inferMostLikelyPathAlternative3 ####
+```
+# inferMostLikelyPathAlternative3
+```{r inferMostLikelyPathAlternative3}
 # Input is scoreSum matrix instead of haplotypePath.
 # scoreSum contains the founder sum-scores per interval, so
 # it might favour discrimination between founders by
@@ -813,7 +854,9 @@ inferMostLikelyPathAlternative3 = function(df, k, scoreThreshold) {
   return(mostLikelyFoundersExport)
 }
 
-#### inferMostLikelyPathAlternative4 ####
+```
+# inferMostLikelyPathAlternative4
+```{r inferMostLikelyPathAlternative4}
 # Adds the functionality to extract base pairs that are
 # potentially linked to crossovers. This is after confirming
 # crossovers, the genotypes of the bordering founders are
@@ -964,7 +1007,9 @@ inferMostLikelyPathAlternative4 = function(df, k, slidingWindows, genotypes, exp
   }
 }
 
-#### inferMostLikelyPathAlternative5 ####
+```
+# inferMostLikelyPathAlternative5
+```{r inferMostLikelyPathAlternative5}
 # The max-score founders on each block are compared btw the
 # upwards and downwards windows and if there is any match, no
 # crossover. This is an alternative more stringent approach
@@ -1116,7 +1161,9 @@ inferMostLikelyPathAlternative5 = function(df, k, slidingWindows, genotypes, exp
   }
 }
 
-#### RECORD CROSSOVER COORDINATES ####
+```
+# RECORD CROSSOVER COORDINATES
+```{r RECORD CROSSOVER COORDINATES}
 # Record the first element of each haploblock as the crossover interval
 getCrossovers = function(df) {
   df =
@@ -1129,7 +1176,9 @@ getCrossovers = function(df) {
   return(df)
 }
 
-#### IMPUTE REPETITIVE HAPLOBLOCKS ####
+```
+# IMPUTE REPETITIVE HAPLOBLOCKS
+```{r IMPUTE REPETITIVE HAPLOBLOCKS}
 # ABABACCC --> AAAAACCC
 imputeRepetitiveSwitches = function(crossoversDF) {
   # crossoversDF = crossoversDF %>%
@@ -1177,5 +1226,8 @@ imputeRepetitiveSwitches = function(crossoversDF) {
   return(crossoversDF)
 }
 
-#### Print session info #####
+```
+# Print session info
+```{r Print session info}
 #sessionInfo()
+```
