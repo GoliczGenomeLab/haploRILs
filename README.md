@@ -15,7 +15,7 @@ PED/MAP called `{filename}` installed in same dir as input.
 Rscript haploRILs.R {file name} {nSnp} {step} {K} {number of founders}
 ```
 ## Method
-![combined_fill_1s](https://github.com/user-attachments/assets/916651a4-aed1-4702-8aca-a2631dcb83d6)
+![haploblock_reconstruction](combined.gif)
 *The GIF shows two examples of founder haploblock reconstruction in chromosomes where a putative crossover is being detected between SNP windows 3 and 4 (K=1, step=1). On top, the crossover is confirmed because none of the pairs of SNP windows compared shares highest-scoring founders. Instead, the crossover below is rejected because the window after, 5 (i+k), shares founder with the windows before, 3 (i-1) and 2 (i-k-1). This context-based method for putative crossover validation aims to reduce the impact of genotyping errors or missing data on founder haplotype assignment.*
 
 1. Heterozygous sites are converted to missing genotypes.

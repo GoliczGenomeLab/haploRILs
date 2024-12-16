@@ -1,5 +1,3 @@
-#!/vol/agcpgl/jmontero/no_backup/miniconda3/envs/R441/bin/Rscript
-
 # Title: haploRILs_function.R
 # Author: jmontero
 # Date: 2024-10-11

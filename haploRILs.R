@@ -1,5 +1,3 @@
-#!/vol/agcpgl/jmontero/no_backup/miniconda3/envs/R441/bin/Rscript
-
 # Title: haploRILs.R
 # Version: 1.0.0
 # Author: jmontero
